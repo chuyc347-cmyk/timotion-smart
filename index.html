@@ -464,7 +464,7 @@ function evalS(text){
 /* ---------- M 可衡量 ---------- */
 function evalM(text){
   var ev = [], tips = [], score = 8;
-  var tless = stripTime(text);
+  var tless = normNum(stripTime(text));
   var pct = matches(tless, RE.percent);
   var units = matches(tless, RE.numUnit);
   var money = matches(tless, RE.money);
@@ -621,6 +621,9 @@ function methodPhrase(text){
 
 /* 一句話裡常出現多個指標詞,取離「由…至…」最近的那個才是被衡量的對象 */
 function nearestMetric(text){
+  /* 先做千分位正規化，否則「由 1,200 ppm 降低至」的錯點找不到，
+     改寫句型會退回抓句子裡第一個指標，挑錯指標名稱。 */
+  text = normNum(text);
   var all = [], re = new RegExp(RE.metric.source, "g"), m;
   while((m = re.exec(text)) !== null) all.push({ text:m[0], index:m.index });
   if(!all.length) return null;
@@ -632,7 +635,7 @@ function nearestMetric(text){
 
 function rewriteParts(text){
   function found(re){ var m = text.match(re); return m ? m[0].trim() : null; }
-  var tless = stripTime(text);
+  var tless = normNum(stripTime(text));
   var nums = (tless.match(RE.percent) || []).concat(tless.match(RE.money) || [], tless.match(RE.numUnit) || []);
   /* 只有在句子真的寫了「提升至…」這類變化結構時,才把偵測到的數字當成目標值;
      里程碑型目標(完成下線、送樣)沒有目標值,留空讓學員自己填。 */
