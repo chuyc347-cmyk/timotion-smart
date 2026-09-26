@@ -807,7 +807,9 @@ input.addEventListener("keydown", function(e){
 });
 
 /* 首次載入即展示一則檢核結果,讓學員一眼看懂工具在做什麼 */
-input.value = SAMPLES.design;
+var demo = SAMPLES.design;
+if(demo === undefined) demo = SAMPLES[Object.keys(SAMPLES).filter(function(k){ return k !== "weak"; })[0]];
+input.value = demo || "";
 runCheck();
 window.scrollTo(0,0);
 })();
