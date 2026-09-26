@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>第一傳動 SMART 目標檢核</title>
+<meta name="description" content="第一傳動科技績效管理課程課後工具:貼上自己或部屬草擬的績效目標,依 SMART 原則逐項檢核,取得改善建議、改寫句型與面談提問參考。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap">
+<style>
+:root{
+  --brand:#5A2D82;
+  --paper:#F9F5FB;
+  --card:#FFFFFF;
+  --ink:#1F1626;
+  --ink-2:#504459;
+  --ink-3:#81748C;
+  --line:#E5DAEC;
+  --line-soft:#F1EAF6;
+  --accent:#5A2D82;
+  --accent-ink:#46216A;
+  --accent-soft:#EEE1F6;
+  --good:#17705A;
+  --good-soft:#DFEDE7;
+  --warn:#8C6216;
+  --warn-soft:#F6EBD5;
+  --poor:#A8394A;
+  --poor-soft:#F7E2E6;
+  --track:#E9DEEF;
+  --shadow:0 1px 2px rgba(31,22,38,.05),0 10px 28px rgba(31,22,38,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --brand:#CBA5E6; --paper:#160F1C; --card:#231A2B; --ink:#EFE8F4; --ink-2:#B8ABC0; --ink-3:#8E809A;
+    --line:#3A2C44; --line-soft:#2B2033; --accent:#CBA5E6; --accent-ink:#DCBFEF; --accent-soft:#31243B;
+    --good:#5FC7A4; --good-soft:#15302A; --warn:#DCA847; --warn-soft:#332916;
+    --poor:#E38294; --poor-soft:#361D25; --track:#352843;
+    --shadow:0 1px 2px rgba(0,0,0,.35),0 10px 28px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --brand:#CBA5E6; --paper:#160F1C; --card:#231A2B; --ink:#EFE8F4; --ink-2:#B8ABC0; --ink-3:#8E809A;
+  --line:#3A2C44; --line-soft:#2B2033; --accent:#CBA5E6; --accent-ink:#DCBFEF; --accent-soft:#31243B;
+  --good:#5FC7A4; --good-soft:#15302A; --warn:#DCA847; --warn-soft:#332916;
+  --poor:#E38294; --poor-soft:#361D25; --track:#352843;
+  --shadow:0 1px 2px rgba(0,0,0,.35),0 10px 28px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Heiti TC",sans-serif;
+  font-size:16px; line-height:1.75;
+}
+.wrap{max-width:880px; margin:0 auto; padding-left:20px; padding-right:20px}
+a{color:var(--accent-ink)}
+h1,h2,h3{line-height:1.3; text-wrap:balance; margin:0; font-weight:700}
+button{font:inherit; cursor:pointer}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+.num-font{font-family:"IBM Plex Sans","Noto Sans TC",sans-serif; font-variant-numeric:tabular-nums}
+
+/* ---------- brand bar ---------- */
+.brandbar{display:flex; align-items:center; gap:12px; padding-top:18px}
+.brand-mark{
+  display:inline-flex; align-items:center; justify-content:center;
+  background:var(--brand); color:#fff;
+  font-weight:700; font-size:1rem; letter-spacing:.04em;
+  padding:5px 11px; border-radius:8px; line-height:1.4;
+}
+:root[data-theme="dark"] .brand-mark{color:#101020}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .brand-mark{color:#101020} }
+.brand-name{font-weight:700; letter-spacing:.02em}
+.brand-name small{
+  display:block; font-weight:500; font-size:.72rem; letter-spacing:.08em;
+  color:var(--ink-3); font-family:"IBM Plex Sans",sans-serif;
+}
+.course-tag{
+  margin-left:auto; color:var(--ink-3); font-size:.8rem; letter-spacing:.08em; white-space:nowrap;
+}
+@media (max-width:560px){ .course-tag{display:none} }
+
+/* ---------- header ---------- */
+.site-head{padding-top:40px; padding-bottom:4px}
+.eyebrow{
+  font-family:"IBM Plex Sans",sans-serif;
+  font-size:.78rem; letter-spacing:.16em; color:var(--accent-ink);
+  margin:0 0 14px; font-weight:600;
+}
+.site-head h1{font-family:"Noto Serif TC",serif; font-size:2.25rem; letter-spacing:-.01em}
+.lede{color:var(--ink-2); max-width:36em; margin:14px 0 0}
+
+/* ---------- input card ---------- */
+.input-card{
+  background:var(--card); border:1px solid var(--line); border-radius:16px;
+  box-shadow:var(--shadow); padding:24px; margin:28px 0 0;
+}
+.input-card label{display:block; font-weight:500; margin-bottom:10px}
+.input-card label small{font-weight:400; color:var(--ink-3); margin-left:.5em}
+textarea{
+  width:100%; min-height:130px; resize:vertical;
+  background:var(--paper); color:var(--ink);
+  border:1px solid var(--line); border-radius:10px; padding:14px 16px;
+  font:inherit; line-height:1.8;
+}
+textarea:focus{outline:2px solid var(--accent); outline-offset:0; border-color:transparent}
+.actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px}
+.btn{border-radius:10px; padding:10px 20px; border:1px solid transparent; font-weight:500; transition:filter .15s, background .15s}
+.btn.primary{background:var(--accent); color:#fff}
+:root[data-theme="dark"] .btn.primary{color:#101719}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn.primary{color:#101719} }
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent; color:var(--accent-ink); border-color:var(--line)}
+.btn.ghost:hover{background:var(--accent-soft)}
+
+.samples{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin-top:18px; padding-top:16px; border-top:1px solid var(--line-soft)}
+.samples .samples-label{font-size:.85rem; color:var(--ink-3); margin-right:2px}
+.sample-chip{
+  background:var(--paper); border:1px solid var(--line); color:var(--ink-2);
+  border-radius:999px; padding:4px 13px; font-size:.86rem;
+}
+.sample-chip:hover{background:var(--accent-soft); color:var(--accent-ink); border-color:var(--accent-soft)}
+.privacy{color:var(--ink-3); font-size:.85rem; margin:16px 0 0}
+
+/* ---------- results ---------- */
+#results{margin-top:36px}
+.result{
+  background:var(--card); border:1px solid var(--line); border-radius:16px;
+  box-shadow:var(--shadow); padding:26px 26px 22px; margin-bottom:26px;
+}
+.result-head{display:flex; gap:20px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap}
+.goal-quote{
+  flex:1 1 22em; margin:0; padding:2px 0 2px 16px;
+  border-left:3px solid var(--accent); color:var(--ink);
+  font-family:"Noto Serif TC",serif; font-size:1.05rem; line-height:1.8;
+}
+.goal-quote .g-label{
+  display:block; font-family:"IBM Plex Sans","Noto Sans TC",sans-serif;
+  font-size:.75rem; letter-spacing:.12em; color:var(--ink-3); margin-bottom:2px; font-weight:500;
+}
+.overall{text-align:right; flex:0 0 auto}
+.overall .num{font-size:2.6rem; font-weight:600; line-height:1; letter-spacing:-.02em}
+.overall .denom{font-size:1rem; color:var(--ink-3); font-weight:400}
+.verdict{display:block; margin-top:8px}
+
+.pill{
+  display:inline-flex; align-items:center; gap:6px;
+  border-radius:999px; padding:2px 12px; font-size:.8rem; font-weight:500; white-space:nowrap;
+}
+.pill::before{content:""; width:7px; height:7px; border-radius:50%; background:currentColor}
+.pill.good{background:var(--good-soft); color:var(--good)}
+.pill.warn{background:var(--warn-soft); color:var(--warn)}
+.pill.poor{background:var(--poor-soft); color:var(--poor)}
+
+/* 五構面總覽 */
+.glance{display:flex; gap:8px; margin:20px 0 0; flex-wrap:wrap}
+.glance-item{
+  flex:1 1 84px; min-width:74px; border:1px solid var(--line); border-radius:10px;
+  padding:9px 10px 10px; text-align:center; background:var(--paper);
+}
+.glance-item .gl-key{font-family:"IBM Plex Sans",sans-serif; font-weight:600; font-size:.8rem; letter-spacing:.1em; color:var(--ink-3)}
+.glance-item .gl-score{display:block; font-size:1.35rem; font-weight:600; line-height:1.3}
+.glance-item.good .gl-score{color:var(--good)}
+.glance-item.warn .gl-score{color:var(--warn)}
+.glance-item.poor .gl-score{color:var(--poor)}
+
+.dims{list-style:none; margin:24px 0 0; padding:0; display:grid; gap:18px}
+.dim{display:grid; grid-template-columns:44px 1fr; gap:14px; padding-top:18px; border-top:1px solid var(--line-soft)}
+.dim-badge{
+  width:44px; height:44px; border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--accent-soft); color:var(--accent-ink);
+  font-family:"IBM Plex Sans",sans-serif; font-size:1.4rem; font-weight:600;
+}
+.dim-top{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+.dim-name{font-weight:700}
+.dim-name small{font-weight:400; color:var(--ink-3); letter-spacing:.03em; font-family:"IBM Plex Sans",sans-serif}
+.dim-score{margin-left:auto; color:var(--ink-2); font-size:.88rem}
+.meter{height:8px; border-radius:4px; background:var(--track); margin:9px 0 10px; overflow:hidden}
+.meter > i{display:block; height:100%; border-radius:4px; transition:width .5s ease}
+@media (prefers-reduced-motion: reduce){ .meter > i{transition:none} }
+.meter.good > i{background:var(--good)}
+.meter.warn > i{background:var(--warn)}
+.meter.poor > i{background:var(--poor)}
+.evidence{display:flex; flex-wrap:wrap; gap:6px; margin:0 0 8px}
+.chip{font-size:.8rem; color:var(--ink-2); background:var(--paper); border:1px solid var(--line); border-radius:7px; padding:1px 9px}
+.chip b{color:var(--accent-ink); font-weight:600}
+.tips{margin:0; padding:0 0 0 1.2em; color:var(--ink-2); font-size:.93rem}
+.tips li{margin:5px 0}
+.tips li::marker{color:var(--accent)}
+
+.panel{border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-top:20px; background:var(--paper)}
+.panel h3{font-size:1rem; margin-bottom:8px; font-family:"Noto Serif TC",serif}
+.panel h3 .tag{
+  font-family:"IBM Plex Sans","Noto Sans TC",sans-serif; font-size:.7rem; font-weight:600;
+  letter-spacing:.14em; color:var(--accent-ink); display:block; margin-bottom:3px;
+}
+.rewrite-sentence{margin:0; font-size:1rem; line-height:2.1}
+.slot{display:inline-block; border-bottom:2px solid var(--accent); padding:0 2px; font-weight:500}
+.slot.empty{color:var(--ink-3); font-weight:400; border-bottom-style:dashed; border-bottom-color:var(--ink-3)}
+.panel-foot{margin:12px 0 0; display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+.copy-note{font-size:.84rem; color:var(--ink-3)}
+.btn.mini{padding:5px 14px; font-size:.86rem; border-radius:8px}
+.coach-list{margin:0; padding:0 0 0 1.2em; color:var(--ink-2); font-size:.95rem}
+.coach-list li{margin:6px 0}
+.results-foot{display:flex; justify-content:flex-end; gap:10px; margin-bottom:8px}
+
+/* ---------- reference ---------- */
+.ref{margin-top:56px}
+.ref h2{font-family:"Noto Serif TC",serif; font-size:1.4rem}
+.ref > p{color:var(--ink-2); margin:8px 0 20px}
+.ref-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(248px,1fr)); gap:14px}
+.ref-card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px}
+.ref-card h3{font-size:1rem; display:flex; align-items:center; gap:10px}
+.ref-card h3 .dim-badge{width:32px; height:32px; font-size:1.05rem; border-radius:9px; flex:0 0 auto}
+.ref-card p{color:var(--ink-2); font-size:.9rem; margin:10px 0 0}
+.ref-card .ask{margin:10px 0 0; padding:8px 12px; border-radius:9px; background:var(--accent-soft); color:var(--accent-ink); font-size:.86rem}
+
+/* ---------- footer ---------- */
+.site-foot{margin-top:56px; padding-top:22px; padding-bottom:44px; border-top:1px solid var(--line); color:var(--ink-3); font-size:.85rem}
+.site-foot p{margin:4px 0}
+
+@media print{
+  .input-card,.actions,.ref,.no-print,.brandbar .course-tag{display:none !important}
+  body{background:#fff; color:#000}
+  .result{box-shadow:none; break-inside:avoid; border-color:#ccc}
+}
+@media (max-width:560px){
+  .site-head{padding-top:34px}
+  .site-head h1{font-size:1.75rem}
+  .result{padding:20px 18px}
+  .overall{text-align:left}
+  .glance-item{flex:1 1 56px; min-width:56px}
+}
+</style>
+</head>
+<body>
+
+<div class="brandbar wrap">
+  <span class="brand-mark" aria-hidden="true">TiMOTION</span>
+  <span class="brand-name">第一傳動科技<small>TiMOTION</small></span>
+  <span class="course-tag">績效管理課程</span>
+</div>
+
+<header class="site-head wrap">
+  <p class="eyebrow">績效管理課程 · 課後練習工具</p>
+  <h1>SMART 目標檢核</h1>
+  <p class="lede">把你草擬的績效目標,或部屬提交的目標草稿貼上來,系統會依 SMART 原則逐項檢核,標示已具備與待補強之處,並給出改寫句型與面談提問建議,作為正式目標設定前的參考。</p>
+</header>
+
+<main class="wrap">
+  <section class="input-card" aria-label="目標輸入">
+    <label for="goal-input">目標草稿 <small>一行一條,可一次貼多條</small></label>
+    <textarea id="goal-input" placeholder="例:在 2026 年 9 月底前,透過建置自動化耐久測試治具並改版測試計畫,將新機種的耐久測試時程由 45 天縮短至 26 天,以支持事業處縮短開發週期的目標。"></textarea>
+    <div class="actions">
+      <button class="btn primary" id="btn-check">檢核目標</button>
+      <button class="btn ghost" id="btn-clear">清除</button>
+    </div>
+    <div class="samples">
+      <span class="samples-label">看範例:</span>
+      <button class="sample-chip" data-sample="weak">待改善</button>
+      <button class="sample-chip" data-sample="design">機構設計</button>
+      <button class="sample-chip" data-sample="control">電控韌體</button>
+      <button class="sample-chip" data-sample="test">測試驗證</button>
+      <button class="sample-chip" data-sample="production">生產製造</button>
+      <button class="sample-chip" data-sample="quality">品保</button>
+      <button class="sample-chip" data-sample="scm">採購供應鏈</button>
+      <button class="sample-chip" data-sample="sales">業務</button>
+      </div>
+    <p class="privacy">所有分析都在你的瀏覽器內完成,目標內容不會上傳、不會被儲存。</p>
+  </section>
+
+  <section id="results" aria-live="polite"></section>
+
+  <section class="ref" id="smart-ref">
+    <h2>SMART 五構面速查</h2>
+    <p>設定目標或與部屬面談時,可用每張卡片下方的問句自我檢核。</p>
+    <div class="ref-grid">
+      <div class="ref-card">
+        <h3><span class="dim-badge">S</span>明確的 Specific</h3>
+        <p>寫清楚要「做什麼、做到什麼程度、範圍在哪」,避免只有方向沒有內容的字眼,例如「提升」「加強」「優化」。</p>
+        <p class="ask">問自己:目標達成時,別人會看到什麼具體的改變或產出?</p>
+      </div>
+      <div class="ref-card">
+        <h3><span class="dim-badge">M</span>可衡量的 Measurable</h3>
+        <p>要有數字或可驗收的證據:指標名稱、現況值、目標值;質化目標則明訂交付物與驗收標準。</p>
+        <p class="ask">問自己:我們要用哪個數字或證據,判斷目標達成了沒有?</p>
+      </div>
+      <div class="ref-card">
+        <h3><span class="dim-badge">A</span>可達成的 Attainable</h3>
+        <p>具挑戰性但做得到:盤點現況、資源、能力與方法,必要時分階段推進。</p>
+        <p class="ask">問自己:以現有資源與工作量,達成把握有幾成?需要哪些支援?</p>
+      </div>
+      <div class="ref-card">
+        <h3><span class="dim-badge">R</span>具相關性 Relevant</h3>
+        <p>目標要接得上部門與公司的重點方向,說得出「為什麼是這個目標、為什麼是現在」。</p>
+        <p class="ask">問自己:這個目標支持部門今年的哪一項重點?</p>
+      </div>
+      <div class="ref-card">
+        <h3><span class="dim-badge">T</span>有時間性 Time Bound</h3>
+        <p>訂出完成期限與中間檢核點;例行性工作則明訂頻率與每期水準。</p>
+        <p class="ask">問自己:什麼時候完成?中間在哪些時點檢視進度?</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <p>本工具為第一傳動科技「績效管理」課程之課後練習輔助,檢核採關鍵字規則判斷,結果僅供目標草稿參考。</p>
+    <p>目標的可達成性與相關性,仍需主管與部屬在面談中對話確認 — 工具不能取代對話。</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+/* ============ 檢核規則 ============ */
+
+var RE = {
+  /* 時間 */
+  deadline: /(20\d{2}\s*年(\s*\d{1,2}\s*月)?(底|前|初)?|Q\s*[1-4]|第\s*[一二三四1-4]\s*季(度)?|[上下]半年|年底前?|年中|本季|全年度?|年度內|(\d{1,2}|[一二三四五六七八九十]{1,3})\s*月(底|前|中旬|下旬|初)|\d{1,2}\s*[日號](以?前)?|\d{1,2}\s*\/\s*\d{1,2}|(週|周|季|年)底前?)/g,
+  before: /(底前|之前|以前|前完成|前達成|內完成|內達成|為止|以内|以內)/,
+  duration: /(\d{1,3}|[一二三四五六七八九十]{1,3})\s*(個月|週|周|天|日|季|年)\s*內/g,
+  recurring: /每\s*(日|天|週|周|雙週|月|季|半年|年|版本|次改版|個迭代|個 Sprint|個sprint)/g,
+
+  /* 量化 */
+  percent: /\d+(\.\d+)?\s*(%|％|個百分點|倍)|百分之\s*[\d一二三四五六七八九十點.]+/g,
+  numUnit: /\d+(\.\d+)?\s*(萬台|萬支|萬組|萬件|萬次|件|次|人(?:次)?|家|場|台|部|款|篇|支|筆|案|項|批|張|份|堂|名|位|組|套|個|顆|片|條|站|線|模|穴|天|工作天|小時|分鐘|秒|週|月|mm\/s|mm|cm|kgf|kg|gf|Nm|N|dB|分貝|rpm|V|mA|A|W|℃|°C)/g,
+  money: /(NT\$|NTD|US\$|USD|\$)\s*[\d,]+|[\d,]+(\.\d+)?\s*(元|萬元|億元|百萬|千萬|萬)/g,
+  metric: /(達成率|推力|拉力|負載|荷重|行程|速度|移動速度|噪音|噪音值|音壓|分貝|dB|壽命|循環次數|耐久|耐久測試|測試時數|MTBF|故障率|不良率|良率|直通率|一次通過率|FPY|報廢率|重工率|返工率|客訴|客訴件數|RMA|退貨率|保固|保固率|保固件數|保固成本|索賠|失效率|異音|溫升|效率|傳動效率|馬達效率|耗電|待機功耗|功耗|防護等級|IP\s?等級|安規|認證|UL|IEC|CE|ETL|EMC|EMI|檢驗|抽檢|全檢|開發週期|開發時程|試作次數|樣品交期|送樣|打樣|設計變更|ECN|工程變更|專利|專利件數|標準化率|模組化率|共用料|料號數|BOM\s?成本|材料成本|製造成本|單位成本|成本|降本|毛利|毛利率|營收|業績|訂單|接單|出貨|出貨量|產量|產能|稼動率|產線平衡|人均產出|工時|標準工時|換模時間|換線時間|前置時間|交期|準交率|準時交貨率|延遲交貨|缺料|缺料率|庫存|庫存週轉|呆滯料|安全庫存|來料不良|進料檢驗|IQC|治具|工安|職災|虛驚|5S|離職率|留任率|出勤率|受訓時數|完訓率|技能矩陣|多能工|滿意度|客戶滿意度|結案時間|處理時效|回覆時間|KPI|OKR|分數|名次|排名|評分|績效等第)/g,
+  baselineTarget: /(由|從)[^,,。;;]{1,24}?(提升|提高|增加|成長|拉高|降低|減少|下降|縮短|壓低|縮小|擴大|提早|延長|加快|改善)[^,,。;;]{0,16}?(至|到)/,
+  btPair: /(?:由|從)\s*([^,,。;;]{1,16}?)\s*(?:提升|提高|增加|成長|拉高|降低|減少|下降|縮短|壓低|縮小|擴大|提早|延長|加快|改善)[^,,。;;]{0,16}?(?:至|到)\s*([^,,。;;]{1,16}?)(?=[,,。;;]|$)/,
+  bareNum: /\d+(?:\.\d+)?/,
+  changeTo: /(提升|提高|增加|成長|拉高|降低|減少|下降|縮短|壓低|縮小|擴大|提早|延長|加快)\s*(至|到)\s*[\d一二三四五六七八九十]/,
+
+  /* 具體性 */
+  actionVerb: /(完成|建立|建置|導入|開發|設計並|推出|發布|發佈|上線|交付|產出|簽署|簽訂|成交|取得|通過|辦理|舉辦|召開|執行|招募|培訓|訓練|認證|取證|制定|訂定|修訂|彙整|盤點|實施|驗證|定案|凍結|送樣|打樣|試作|開模|試產|量產|組裝|檢驗|改版|移轉|整合|整併|自動化|標準化|部署|提交|提報|發表|申請|改善並|換線|換模)/g,
+  deliverable: /(推桿|電動推桿|直線推桿|線性致動器|致動器|actuator|升降柱|升降桌|桌框|升降桌框|控制盒|control\s?box|手控器|遙控器|控制器|驅動器|馬達|直流馬達|無刷馬達|減速機|齒輪箱|齒輪|導螺桿|螺桿|螺帽|外管|內管|連桿|支架|鑄件|沖壓件|塑膠件|模具|治具|夾具|線材|線束|感測器|霍爾感測|電路板|PCB|pcb|韌體|firmware|軟體|APP|app|藍牙模組|模組|零組件|零件|樣品|工程樣品|試作品|規格書|spec|圖面|BOM|料表|設計文件|技術文件|作業標準|SOP|sop|檢驗標準|檢查表|checklist|測試報告|測試計畫|驗證報告|報告|月報|週報|周報|報表|簡報|方案|流程|制度|機制|平台|系統|資料庫|儀表板|看板|教材|課程|訓練|手冊|使用手冊|安裝手冊|型錄|提案|範本|表單|清單|專利|認證|產線|生產線|工作站|自動化設備|檢測設備)/g,
+  vagueVerb: /(提升|提高|加強|優化|改善|強化|精進|深化|落實|推動|促進|維持|確保)/g,
+  scope: /(全公司|全廠|全廠區|廠區|各廠|全事業處|全部門|各部門|全產品線|各產品線|產品線|全系列|各系列|新一代|次世代|量產版|試產|醫療|醫療照護|病床|電動床|輪椅|居家照護|辦公|辦公傢俱|人體工學|升降桌|工業|工業自動化|農業機械|休閒|按摩椅|沙發|健身|寵物|車用|台南|台灣|中國|越南|美國|歐洲|海外|各據點|據點|OEM|ODM|[A-Z]{2,3}\d{1,3}[A-Z]?\s?系列)/g,
+  vagueWord: /(盡量|儘量|盡快|儘快|盡力|更好|有效(?!率)|大幅|明顯|相關(?!部門|單位)|若干|適時|適度|積極|妥善|順利|良好|進一步|一定程度|持續(?!性)|全面(?!性)|不斷)/g,
+
+  /* 可達成 */
+  method: /(透過|藉由|運用|利用|導入|結合|採用|依據|參照|比照|與[^,,。;;]{1,14}(合作|協作)|分階段|分[一二三四五六七八九十\d]+(階段|梯次|波|期))/g,
+  baseline: /(目前|現況|現行|現有|既有|原本|去年(同期)?|今年迄今|基期|歷年|上季|上月|上週|上周|上一?年度|舊版)/g,
+
+  /* 相關性 */
+  alignStrong: /(公司|集團|事業處|事業群|BU|策略|政策|方針|品質政策|技術藍圖|產品藍圖|IP\s?藍圖|roadmap|ESG|永續|上位目標|年度(目標|計畫|重點)|[^,,。;;\s]{0,6}目標)/g,
+  alignUnit: /(部門|處級|事業處|產品線|專案|單位|團隊|組織|客戶|原廠|供應商|市場|通路|生態系)/g,
+  purpose: /(以支持|以達成|以利|以確保|以提升|以降低|以符合|以回應|藉此|進而|從而|為了|為達成|有助於|確保)/g
+};
+
+function matches(text, re){
+  var m = text.match(re);
+  if(!m) return [];
+  var seen = {}, out = [];
+  for(var i=0;i<m.length;i++){
+    var t = m[i].trim();
+    if(t && !seen[t]){ seen[t]=1; out.push(t); }
+  }
+  return out;
+}
+
+/* alignStrong 最後一條規則「…目標」沒有左邊界，比對可能從詞中間開始，
+   証擮標籤就會出現「務部年度品質目標」這種開頭被切掉的字串。
+   這裡只把「…目標」這類比對結果往左補回子句開頭（標點之後，空白不算邊界，
+   「公司 2030 年…」才不會被切開），再去掉開頭的「以支持」「將」這類連接詞與動詞；
+   「事業處」「客戶」這類本身完整的關鍵字不往左擴，避免變成「將事業處」。
+   最後丟掉被其他片段完整包含的短片段。
+   只影響証擮顯示 — 分數只看有沒有比對到，不看比對到幾個。 */
+function alignPhrases(text){
+  var lead = new RegExp("^(?:並|且|將|把|使|讓|" + RE.purpose.source.replace(/^\(/, "").replace(/\)$/, "") + ")+");
+  var re = new RegExp(RE.alignStrong.source, "g");
+  var found = [], m;
+  while((m = re.exec(text)) !== null){
+    if(m[0] === ""){ re.lastIndex++; continue; }
+    var phrase = m[0].trim();
+    if(/目標$/.test(phrase)){
+      var start = m.index, end = start + m[0].length;
+      while(start > 0 && !/[,，。;；、:：!！?？]/.test(text.charAt(start - 1))) start--;
+      var wide = text.slice(start, end).replace(lead, "").trim();
+      if(wide) phrase = wide;
+    }
+    if(phrase && found.indexOf(phrase) === -1) found.push(phrase);
+  }
+  var out = found.filter(function(p){
+    return !found.some(function(q){ return q !== p && q.indexOf(p) !== -1; });
+  });
+  return out.length ? out : found;
+}
+function clamp(n){ return Math.max(0, Math.min(100, Math.round(n))); }
+
+/* 千分位逗號會切斷「由…至…」的比對(例:由 1,200 ppm 降低至 600 ppm),
+   先把夾在數字之間的逗號去掉再比對。只用於判斷,不影響畫面顯示的原句。 */
+function normNum(text){
+  return text.replace(/(\d)[,,](?=\d)/g, "$1");
+}
+
+/* 取「由 A …至 B」兩端的數值。FR 值、能耗指數這類沒有單位的純數字也算。 */
+function btValues(text){
+  var m = normNum(text).match(RE.btPair);
+  if(!m) return null;
+  function val(part){
+    var v = part.match(RE.percent) || part.match(RE.money) || part.match(RE.numUnit) || part.match(RE.bareNum);
+    return v ? v[0].trim() : null;
+  }
+  var a = val(m[1]), b = val(m[2]);
+  return (a || b) ? { baseline:a, target:b } : null;
+}
+
+/* 移除時間相關片段,避免日期數字被誤判為衡量數字 */
+function stripTime(text){
+  return text.replace(RE.deadline,"〔期〕").replace(RE.duration,"〔期〕").replace(RE.recurring,"〔期〕");
+}
+
+function levelOf(score){
+  if(score >= 75) return {key:"good", label:"良好"};
+  if(score >= 45) return {key:"warn", label:"部分符合"};
+  return {key:"poor", label:"待加強"};
+}
+
+/* ---------- S 具體 ---------- */
+function evalS(text){
+  var ev = [], tips = [], score = 10;
+  var acts = matches(text, RE.actionVerb);
+  var dels = matches(text, RE.deliverable);
+  var vagueV = matches(text, RE.vagueVerb);
+  var vagueW = matches(text, RE.vagueWord);
+  var hasNumber = /\d/.test(stripTime(text));
+
+  var quantified = RE.baselineTarget.test(normNum(text)) || RE.changeTo.test(normNum(text)) || matches(stripTime(text), RE.percent).length > 0;
+  if(acts.length){ score += 32; ev.push({label:"行動動詞", items:acts}); }
+  if(dels.length){ score += 22; ev.push({label:"具體產出", items:dels}); }
+  if(quantified){ score += 20; ev.push({label:"程度明確", items:["以數字界定做到什麼程度"]}); }
+  var mets = matches(text, RE.metric);
+  var scopes = matches(text, RE.scope);
+  if(mets.length && quantified){
+    score += 18;
+    ev.push({label:"衡量對象", items:mets.slice(0,3)});
+  }
+  if(scopes.length){ score += 8; ev.push({label:"適用範圍", items:scopes}); }
+  if(text.replace(/\s/g,"").length >= 15) score += 14;
+  else tips.push("目標敘述偏短,建議補上「做什麼、範圍、做到什麼程度」三個要素。");
+
+  if(vagueV.length && !acts.length && !hasNumber){
+    score -= 18;
+    tips.push("「" + vagueV.join("、") + "」屬於方向性字眼,請接上具體對象與程度,例如把「提升效率」改為「將滿載運行噪音由 52 dB 降低至 45 dB」。");
+  } else if(vagueV.length && !hasNumber){
+    tips.push("「" + vagueV.join("、") + "」等字眼建議搭配具體程度或數字,避免各自解讀。");
+  }
+  if(vagueW.length){
+    score -= Math.min(24, vagueW.length * 8);
+    tips.push("模糊修飾詞:「" + vagueW.join("、") + "」— 這類詞每個人的標準不同,建議刪除或改為明確的標準。");
+  }
+  if(!acts.length && !dels.length){
+    tips.push("看不出具體要「做出什麼」。建議點名交付物或改變,例如:完成○○ 機種試產驗證、將○○出貨不良率降低至○%。");
+  }
+  if(!tips.length) tips.push("敘述已相當具體,面談時可再確認範圍邊界(涵蓋哪些產品線/專案/客戶)。");
+  return { score: clamp(score), evidence: ev, tips: tips };
+}
+
+/* ---------- M 可衡量 ---------- */
+function evalM(text){
+  var ev = [], tips = [], score = 8;
+  var tless = stripTime(text);
+  var pct = matches(tless, RE.percent);
+  var units = matches(tless, RE.numUnit);
+  var money = matches(tless, RE.money);
+  var mets = matches(text, RE.metric);
+  var hasBT = RE.baselineTarget.test(normNum(text)) || RE.changeTo.test(normNum(text));
+  var milestone = matches(text, RE.actionVerb).length > 0 && matches(text, RE.deliverable).length > 0;
+
+  if(pct.length){ score += 30; ev.push({label:"比率/百分比", items:pct}); }
+  if(money.length){ score += 24; ev.push({label:"金額", items:money}); }
+  if(units.length){ score += 20; ev.push({label:"數量", items:units}); }
+  if(mets.length){ score += 24; ev.push({label:"指標名稱", items:mets}); }
+  if(hasBT){ score += 20; ev.push({label:"現況→目標", items:["有「由…提升/降低至…」結構"]}); }
+  else if(pct.length || units.length || money.length){
+    tips.push("已有目標值,建議補上「現況值」形成「由 A 提升/降低至 B」,進步幅度一目了然。");
+  }
+
+  var bare = btValues(stripTime(text));
+  if(bare && !pct.length && !units.length && !money.length){
+    score += 26;
+    ev.push({label:"數值(無單位)", items:[(bare.baseline||"?") + " → " + (bare.target||"?")]});
+    tips.push("目標值是沒有單位的數值(如 FR 值、能耗指數):請在面談時確認計算口徑與資料來源,避免雙方認知不同。");
+  }
+  if(!pct.length && !units.length && !money.length && !bare){
+    if(milestone){
+      score += 32;
+      ev.push({label:"里程碑型目標", items:["以「完成/下線/送樣」驗收"]});
+      tips.push("屬里程碑型(質化)目標:請明訂「完成」的驗收標準 — 由誰驗收、包含哪些範圍、品質標準為何。");
+    } else if(mets.length){
+      tips.push("有寫出指標(" + mets.slice(0,2).join("、") + ")但沒有目標值。請補上現況值與目標值,例如「由 A 提升至 B」。");
+    } else {
+      tips.push("找不到任何數字、指標或可驗收的交付物。請補上指標名稱與目標值,或明訂交付物與驗收標準。");
+    }
+  }
+  if(!tips.length) tips.push("衡量方式明確;面談時再確認數據來源與計算口徑,雙方認知一致。");
+  return { score: clamp(score), evidence: ev, tips: tips };
+}
+
+/* ---------- A 可達成 ---------- */
+function evalA(text){
+  var ev = [], tips = [], score = 22;
+  var methods = matches(text, RE.method);
+  var bases = matches(text, RE.baseline);
+  if(!bases.length && RE.baselineTarget.test(normNum(text))) bases = ["「由…至…」中的現況值"];
+
+  if(methods.length){ score += 36; ev.push({label:"方法/作法", items:methods}); }
+  if(bases.length){ score += 22; ev.push({label:"現況/基期", items:bases}); }
+  if(/分階段|分[一二三四五六七八九十\d]+(階段|梯次|波|期)/.test(text)){ score += 10; }
+
+  if(!methods.length){
+    tips.push("目標中看不出「怎麼做」。補上主要作法(透過○○、導入○○、與○○合作),能大幅提高說服力與可行性。");
+  }
+  if(!bases.length){
+    tips.push("建議註明現況或基期數據,讓挑戰幅度有依據,也方便期中檢視進步。");
+  }
+  tips.push("可達成性需人為判斷 — 面談時確認:資源與工時是否足夠?挑戰幅度是「跳一下搆得到」還是遙不可及?");
+  return { score: clamp(score), evidence: ev, tips: tips };
+}
+
+/* ---------- R 相關 ---------- */
+function evalR(text){
+  var ev = [], tips = [], score = 18;
+  var strong = alignPhrases(text);
+  var units = matches(text, RE.alignUnit);
+  var purposes = matches(text, RE.purpose);
+
+  if(strong.length){ score += 30; ev.push({label:"對齊的重點/目標", items:strong}); }
+  if(units.length){ score += 14; ev.push({label:"涉及單位/對象", items:units}); }
+  if(purposes.length){ score += 24; ev.push({label:"目的連接詞", items:purposes}); }
+
+  if(!strong.length && !purposes.length){
+    tips.push("看不出這個目標「為了什麼」。建議句尾補上「以支持○○部門年度目標/公司○○策略」,說明與上位目標的關聯。");
+  } else if(!strong.length){
+    tips.push("建議點名要支持的上位目標或重點(部門年度目標、公司策略),讓關聯更明確。");
+  }
+  tips.push("相關性需對照組織重點 — 面談時確認:這是今年最值得投入的事嗎?與部門目標的權重關係為何?");
+  return { score: clamp(score), evidence: ev, tips: tips };
+}
+
+/* ---------- T 有時限 ---------- */
+function evalT(text){
+  var ev = [], tips = [], score = 8;
+  var dls = matches(text, RE.deadline);
+  var durs = matches(text, RE.duration);
+  var recs = matches(text, RE.recurring);
+
+  if(dls.length){ score += 48; ev.push({label:"期限", items:dls}); }
+  if(durs.length){ score += 42; ev.push({label:"期間", items:durs}); }
+  if(RE.before.test(text)) score += 12;
+  if(recs.length){
+    score += 34; ev.push({label:"頻率", items:recs});
+    if(!dls.length) tips.push("屬例行性目標:除了頻率,建議補上適用期間(例如「2026 全年度,每月…」)與每期應達水準。");
+  }
+  if(!dls.length && !durs.length && !recs.length){
+    tips.push("沒有找到完成期限。請補上明確時點(例如「2026 年 Q4 底前」「9 月底前」),沒有期限的目標很難追蹤。");
+  } else {
+    tips.push("建議再設定 1–2 個期中檢核點(例如每季檢視),進度落後時才來得及調整。");
+  }
+  return { score: clamp(score), evidence: ev, tips: tips };
+}
+
+/* ---------- 整體 ---------- */
+var DIMS = [
+  { key:"S", name:"明確的",   en:"Specific",   fn:evalS },
+  { key:"M", name:"可衡量的", en:"Measurable", fn:evalM },
+  { key:"A", name:"可達成的", en:"Attainable", fn:evalA },
+  { key:"R", name:"具相關性", en:"Relevant",   fn:evalR },
+  { key:"T", name:"有時間性", en:"Time Bound", fn:evalT }
+];
+
+var COACH = {
+  S: "如果這個目標達成了,別人會看到什麼具體的改變或產出?",
+  M: "我們要用哪一個數字或證據,來判斷這個目標達成了沒有?現況值是多少?",
+  A: "以目前的資源和工作量,你達成的把握有幾成?需要我提供哪些支援?",
+  R: "這個目標支持部門今年的哪一項重點?為什麼是現在做?",
+  T: "什麼時候要完成?中間我們在哪些時點一起檢視進度?"
+};
+
+function evaluateGoal(text){
+  var results = DIMS.map(function(d){
+    var r = d.fn(text);
+    r.key = d.key; r.name = d.name; r.en = d.en;
+    r.level = levelOf(r.score);
+    return r;
+  });
+  var total = Math.round(results.reduce(function(s,r){ return s + r.score; }, 0) / results.length);
+  var verdict;
+  if(total >= 78) verdict = {key:"good", label:"已可作為正式目標草稿"};
+  else if(total >= 55) verdict = {key:"warn", label:"已具雛形,建議補強"};
+  else verdict = {key:"poor", label:"建議依提示改寫後再檢核"};
+  return { text:text, dims:results, total:total, verdict:verdict };
+}
+
+/* ---------- 改寫句型 ---------- */
+/* 「2026 年 Q4 底」會被拆成兩段比對,相鄰者併回一個完整期限 */
+function spanDeadline(text){
+  var re = new RegExp(RE.deadline.source, "g"), m, start = -1, end = -1;
+  while((m = re.exec(text)) !== null){
+    if(start === -1){ start = m.index; end = m.index + m[0].length; }
+    else if(m.index - end <= 2){ end = m.index + m[0].length; }
+    else break;
+  }
+  return start === -1 ? null : text.slice(start, end).trim();
+}
+
+/* 取「透過○○」中的作法本身,而不是連接詞 */
+function methodPhrase(text){
+  var m = text.match(/(?:透過|藉由|運用|利用|結合|採用|依據|參照|比照)\s*([^,,。;;]{2,28})/);
+  if(m && m[1]) return m[1].trim();
+  m = text.match(/(分階段|分[一二三四五六七八九十\d]+(?:階段|梯次|波|期))/);
+  if(m) return m[1].trim();
+  m = text.match(/導入\s*([^,,。;;]{2,24})/);
+  return m && m[1] ? "導入" + m[1].trim() : null;
+}
+
+/* 一句話裡常出現多個指標詞,取離「由…至…」最近的那個才是被衡量的對象 */
+function nearestMetric(text){
+  var all = [], re = new RegExp(RE.metric.source, "g"), m;
+  while((m = re.exec(text)) !== null) all.push({ text:m[0], index:m.index });
+  if(!all.length) return null;
+  var anchor = text.search(/(?:由|從)\s*[^,,。;;]{0,16}?(?:提升|提高|增加|成長|拉高|降低|減少|下降|縮短|壓低|縮小|擴大|提早|延長|加快|改善)/);
+  if(anchor === -1) return all[0].text;
+  var before = all.filter(function(x){ return x.index < anchor; });
+  return (before.length ? before[before.length-1] : all[0]).text;
+}
+
+function rewriteParts(text){
+  function found(re){ var m = text.match(re); return m ? m[0].trim() : null; }
+  var tless = stripTime(text);
+  var nums = (tless.match(RE.percent) || []).concat(tless.match(RE.money) || [], tless.match(RE.numUnit) || []);
+  /* 只有在句子真的寫了「提升至…」這類變化結構時,才把偵測到的數字當成目標值;
+     里程碑型目標(完成下線、送樣)沒有目標值,留空讓學員自己填。 */
+  var hasChange = RE.changeTo.test(normNum(text)) || RE.baselineTarget.test(normNum(text));
+  var baseline = null, target = (hasChange && nums.length) ? nums[0] : null;
+
+  /* 有「由 A 提升至 B」結構時,A 是現況值、B 才是目標值 */
+  var bt = btValues(text);
+  if(bt){
+    baseline = bt.baseline;
+    if(bt.target) target = bt.target;
+  }
+  return {
+    deadline: spanDeadline(text) || found(RE.duration),
+    method:   methodPhrase(text),
+    metric:   nearestMetric(text),
+    baseline: baseline,
+    target:   target
+  };
+}
+function buildRewriteHtml(text){
+  var p = rewriteParts(text);
+  function slot(val, hint){
+    return val
+      ? '<span class="slot">' + escapeHtml(val) + '</span>'
+      : '<span class="slot empty">' + hint + '</span>';
+  }
+  return '在 ' + slot(p.deadline,"期限,如:2026 年 Q4 底") + ' 前,透過 ' + slot(p.method,"主要方法/行動")
+    + ',將 ' + slot(p.metric,"衡量指標") + ' 由 ' + slot(p.baseline,"現況值") + ' 提升/降低至 '
+    + slot(p.target,"目標值") + ',以支持 ' + slot(null,"部門/公司的哪項重點") + '。';
+}
+function buildRewriteText(text){
+  var p = rewriteParts(text);
+  function s(val, hint){ return val ? val : "【" + hint + "】"; }
+  return '在 ' + s(p.deadline,"期限") + ' 前,透過 ' + s(p.method,"主要方法/行動")
+    + ',將 ' + s(p.metric,"衡量指標") + ' 由 ' + s(p.baseline,"現況值") + ' 提升/降低至 '
+    + s(p.target,"目標值") + ',以支持 【部門/公司的哪項重點】。';
+}
+
+/* ============ 畫面 ============ */
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+  });
+}
+
+function renderGoal(res, idx, showIndex){
+  var h = '<article class="result">';
+  h += '<div class="result-head">';
+  h += '<blockquote class="goal-quote"><span class="g-label">' + (showIndex ? "目標 " + (idx+1) : "檢核的目標") + '</span>' + escapeHtml(res.text) + '</blockquote>';
+  h += '<div class="overall"><span class="num num-font">' + res.total + '<span class="denom"> / 100</span></span>';
+  h += '<span class="verdict pill ' + res.verdict.key + '">' + res.verdict.label + '</span></div>';
+  h += '</div>';
+
+  h += '<div class="glance" role="list" aria-label="五構面得分總覽">';
+  res.dims.forEach(function(d){
+    h += '<div class="glance-item ' + d.level.key + '" role="listitem">';
+    h += '<span class="gl-key">' + d.key + '</span>';
+    h += '<span class="gl-score num-font">' + d.score + '</span>';
+    h += '<span class="sr-only" style="position:absolute;left:-9999px">' + d.name + d.level.label + '</span>';
+    h += '</div>';
+  });
+  h += '</div>';
+
+  h += '<ul class="dims">';
+  res.dims.forEach(function(d){
+    h += '<li class="dim"><span class="dim-badge" aria-hidden="true">' + d.key + '</span><div>';
+    h += '<div class="dim-top"><span class="dim-name">' + d.name + ' <small>' + d.en + '</small></span>';
+    h += '<span class="pill ' + d.level.key + '">' + d.level.label + '</span>';
+    h += '<span class="dim-score num-font">' + d.score + ' / 100</span></div>';
+    h += '<div class="meter ' + d.level.key + '" role="img" aria-label="' + d.name + ' 得分 ' + d.score + ' 分,' + d.level.label + '"><i style="width:' + d.score + '%"></i></div>';
+    if(d.evidence.length){
+      h += '<div class="evidence">';
+      d.evidence.forEach(function(e){
+        h += '<span class="chip"><b>' + e.label + '</b>:' + escapeHtml(e.items.slice(0,4).join("、")) + '</span>';
+      });
+      h += '</div>';
+    }
+    h += '<ul class="tips">';
+    d.tips.forEach(function(t){ h += '<li>' + t + '</li>'; });
+    h += '</ul></div></li>';
+  });
+  h += '</ul>';
+
+  h += '<div class="panel"><h3><span class="tag">改寫參考</span>建議句型 — 把偵測到的內容放進完整結構</h3>';
+  h += '<p class="rewrite-sentence">' + buildRewriteHtml(res.text) + '</p>';
+  h += '<div class="panel-foot no-print"><button class="btn ghost mini btn-copy" data-goal-index="' + idx + '">複製句型</button>';
+  h += '<span class="copy-note">複製後可貼到目標設定表單,再把【】內容換成你的數字。</span></div></div>';
+
+  var weak = res.dims.filter(function(d){ return d.level.key !== "good"; })
+                     .sort(function(a,b){ return a.score - b.score; })
+                     .slice(0,3);
+  if(!weak.length) weak = [res.dims[2], res.dims[3]]; /* A/R 永遠值得對話 */
+  h += '<div class="panel"><h3><span class="tag">績效面談</span>下次一對一,可以這樣提問</h3><ul class="coach-list">';
+  weak.forEach(function(d){ h += '<li>' + COACH[d.key] + '</li>'; });
+  h += '</ul></div>';
+
+  h += '</article>';
+  return h;
+}
+
+function splitGoals(raw){
+  return raw.split(/\n+/)
+    .map(function(l){ return l.replace(/^\s*(\d+[\.\、\)]|[-•●*]|\([一二三四五六七八九十\d]+\)|[一二三四五六七八九十]+[、.])\s*/,"").trim(); })
+    .filter(function(l){ return l.length >= 6; })
+    .slice(0, 10);
+}
+
+var SAMPLES = {
+  weak: "持續提升推桿的產品品質,並加強與客戶的技術溝通。",
+  design: "在 2026 年 Q3 底前,透過重新設計齒輪箱齒比並改用一體成型外管,將 TA2 系列推桿滿載運行的噪音由 52 dB 降低至 45 dB,以支持產品線年度靜音化目標。",
+  control: "在 2026 年 6 月底前,透過改寫控制盒的過載保護演算法並完成 500 小時連續耐久測試,將手控器誤動作的客訴件數由每季 18 件降低至 5 件,以支持公司年度品質目標。",
+  test: "在 2026 年 9 月底前,透過建置自動化耐久測試治具並改版測試計畫,將新機種的耐久測試時程由 45 天縮短至 26 天,以支持事業處縮短開發週期的目標。",
+  production: "在 2026 年 Q4 底前,透過重新規劃組裝線工作站配置並建立換線作業標準,將推桿組裝線的換線時間由 38 分鐘縮短至 15 分鐘,以支持全廠年度產能目標。",
+  quality: "在 2026 年 8 月底前,透過強化進料檢驗標準並與螺桿供應商共同改善製程,將推桿出貨的不良率由 1.8% 降低至 0.6%,以支持公司年度客戶滿意度目標。",
+  scm: "在 2026 年 Q3 底前,透過盤點高用量料號並與供應商建立安全庫存機制,將關鍵零組件的缺料率由 9.5% 降低至 3.0%,以支持全廠提升準交率的目標。",
+  sales: "在 2026 年 Q4 底前,透過開發 6 家歐洲人體工學辦公傢俱客戶並完成升降桌框試裝驗證,將辦公應用的年出貨量由 12 萬台提升至 18 萬台,以支持公司年度營收目標。"
+};
+
+var input = document.getElementById("goal-input");
+var resultsEl = document.getElementById("results");
+var lastGoals = [];
+
+function runCheck(){
+  var goals = splitGoals(input.value || "");
+  lastGoals = goals;
+  if(!goals.length){
+    resultsEl.innerHTML = '<div class="panel"><p style="margin:0">請先貼上至少一條目標(每條至少 6 個字),再按「檢核目標」。</p></div>';
+    return;
+  }
+  var html = goals.map(function(g,i){ return renderGoal(evaluateGoal(g), i, goals.length > 1); }).join("");
+  html += '<p class="results-foot no-print"><button class="btn ghost" id="btn-print">列印 / 存成 PDF</button></p>';
+  resultsEl.innerHTML = html;
+  var pb = document.getElementById("btn-print");
+  if(pb) pb.addEventListener("click", function(){ window.print(); });
+  resultsEl.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start"});
+}
+
+resultsEl.addEventListener("click", function(e){
+  var btn = e.target.closest ? e.target.closest(".btn-copy") : null;
+  if(!btn) return;
+  var goal = lastGoals[Number(btn.getAttribute("data-goal-index"))];
+  if(goal === undefined) return;
+  var text = buildRewriteText(goal);
+  var done = function(ok){
+    btn.textContent = ok ? "已複製" : "複製失敗,請手動選取";
+    setTimeout(function(){ btn.textContent = "複製句型"; }, 2200);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ done(false); });
+  } else {
+    done(false);
+  }
+});
+
+document.getElementById("btn-check").addEventListener("click", runCheck);
+document.getElementById("btn-clear").addEventListener("click", function(){
+  input.value = ""; resultsEl.innerHTML = ""; lastGoals = []; input.focus();
+});
+Array.prototype.forEach.call(document.querySelectorAll(".sample-chip"), function(chip){
+  chip.addEventListener("click", function(){
+    input.value = SAMPLES[chip.getAttribute("data-sample")] || "";
+    runCheck();
+  });
+});
+input.addEventListener("keydown", function(e){
+  if((e.ctrlKey || e.metaKey) && e.key === "Enter") runCheck();
+});
+
+/* 首次載入即展示一則檢核結果,讓學員一眼看懂工具在做什麼 */
+input.value = SAMPLES.design;
+runCheck();
+window.scrollTo(0,0);
+})();
+</script>
+</body>
+</html>
